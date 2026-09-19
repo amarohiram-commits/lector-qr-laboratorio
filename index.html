@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -55,6 +56,7 @@
       padding: 18px;
       border-radius: 10px;
       background: #e6f4ea;
+      color: #137333;
       text-align: center;
       display: none;
     }
@@ -76,6 +78,12 @@
       word-break: break-all;
     }
 
+    .espera {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
     button {
       width: 100%;
       padding: 15px;
@@ -90,71 +98,98 @@
     }
 
   </style>
+
 </head>
 
 
 <body>
 
-  <div class="contenedor">
+<div class="contenedor">
 
-    <h1>
-      Lector QR
-    </h1>
+  <h1>
+    Lector QR
+  </h1>
 
-    <div class="subtitulo">
-      Registro de Laboratorio
-    </div>
+  <div class="subtitulo">
+    Registro de Laboratorio
+  </div>
 
-    <div id="lector"></div>
 
-    <div
-      id="resultado"
-      class="resultado">
+  <div id="lector"></div>
 
-      <strong>
-        QR reconocido
-      </strong>
 
-      <div
-        id="codigo"
-        class="codigo">
-      </div>
+  <div
+    id="resultado"
+    class="resultado">
 
-    </div>
+    <strong>
+      QR reconocido
+    </strong>
 
     <div
-      id="error"
-      class="error">
+      id="codigo"
+      class="codigo">
     </div>
 
-    <button
-      onclick="reiniciarLector()">
-      ESCANEAR OTRO QR
-    </button>
+    <div class="espera">
+      Regresando al sistema de registro...
+    </div>
 
   </div>
 
 
+  <div
+    id="error"
+    class="error">
+  </div>
+
+
+  <button
+    onclick="reiniciarLector()">
+    ESCANEAR OTRO QR
+  </button>
+
+</div>
+
+
 <script>
+
+
+/* =========================================
+   URL DE TU APP DE GOOGLE
+========================================= */
+
+const APP_LABORATORIO =
+  'https://script.google.com/a/macros/tec.mx/s/AKfycbyZ0C0JQebvwdW4Q73-l2s1NunGBDDlHAEPTM-qRAj0TKeYpb0vWNXs0tWZ1lRdzP4s/exec';
+
 
 let scanner = null;
 
 let procesando = false;
 
 
+/* =========================================
+   INICIAR LECTOR
+========================================= */
+
 function iniciarLector() {
 
-  procesando = false;
+  procesando =
+    false;
 
 
   document
-    .getElementById('resultado')
+    .getElementById(
+      'resultado'
+    )
     .style.display =
     'none';
 
 
   document
-    .getElementById('error')
+    .getElementById(
+      'error'
+    )
     .style.display =
     'none';
 
@@ -165,18 +200,27 @@ function iniciarLector() {
       'lector',
 
       {
+
         fps: 10,
 
         qrbox: {
+
           width: 250,
+
           height: 250
+
         },
 
-        rememberLastUsedCamera: true,
+        rememberLastUsedCamera:
+          true,
 
         supportedScanTypes: [
-          Html5QrcodeScanType.SCAN_TYPE_CAMERA
+
+          Html5QrcodeScanType
+            .SCAN_TYPE_CAMERA
+
         ]
+
       },
 
       false
@@ -185,11 +229,18 @@ function iniciarLector() {
 
 
   scanner.render(
+
     qrLeido,
+
     qrError
+
   );
 }
 
+
+/* =========================================
+   QR LEÍDO
+========================================= */
 
 function qrLeido(
   decodedText
@@ -198,12 +249,9 @@ function qrLeido(
   if (
     procesando
   ) {
+
     return;
   }
-
-
-  procesando =
-    true;
 
 
   const contenido =
@@ -212,6 +260,11 @@ function qrLeido(
     )
       .trim();
 
+
+  /*
+    SOLO ACEPTAMOS LOS QR
+    GENERADOS POR EL SISTEMA
+  */
 
   if (
     !contenido
@@ -226,25 +279,33 @@ function qrLeido(
     );
 
 
-    procesando =
-      false;
-
-
     return;
   }
 
 
+  procesando =
+    true;
+
+
   document
-    .getElementById('codigo')
+    .getElementById(
+      'codigo'
+    )
     .textContent =
     contenido;
 
 
   document
-    .getElementById('resultado')
+    .getElementById(
+      'resultado'
+    )
     .style.display =
     'block';
 
+
+  /*
+    DETENEMOS LA CÁMARA
+  */
 
   if (
     scanner
@@ -256,13 +317,60 @@ function qrLeido(
         function() {}
       );
   }
+
+
+  /*
+    AGREGAMOS EL QR A LA URL
+    DE LA APP DE GOOGLE
+  */
+
+  const destino =
+
+    APP_LABORATORIO +
+
+    '?qr=' +
+
+    encodeURIComponent(
+      contenido
+    );
+
+
+  /*
+    DAMOS UN PEQUEÑO TIEMPO
+    PARA QUE EL USUARIO VEA
+    QUE EL QR FUE RECONOCIDO
+  */
+
+  setTimeout(
+    function() {
+
+      window.location.href =
+        destino;
+
+    },
+    700
+  );
 }
 
+
+/* =========================================
+   ERROR DE LECTURA
+========================================= */
 
 function qrError() {
 
+  /*
+    Es normal que existan intentos
+    de lectura fallidos mientras
+    la cámara busca un QR.
+  */
+
 }
 
+
+/* =========================================
+   MOSTRAR ERROR
+========================================= */
 
 function mostrarError(
   texto
@@ -284,16 +392,25 @@ function mostrarError(
 }
 
 
+/* =========================================
+   REINICIAR
+========================================= */
+
 function reiniciarLector() {
 
   location.reload();
 }
 
 
+/* =========================================
+   INICIO
+========================================= */
+
 window.onload =
 function() {
 
   iniciarLector();
+
 };
 
 </script>
