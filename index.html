@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Lector QR Laboratorio
+  </title>
+
+  <script
+    src="https://unpkg.com/html5-qrcode">
+  </script>
+
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .contenedor {
+      max-width: 520px;
+      margin: 30px auto;
+      background: white;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    #lector {
+      width: 100%;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #e6f4ea;
+      text-align: center;
+      display: none;
+    }
+
+    .error {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #fce8e6;
+      color: #c5221f;
+      text-align: center;
+      display: none;
+    }
+
+    .codigo {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      word-break: break-all;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #1a73e8;
+      color: white;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="contenedor">
+
+    <h1>
+      Lector QR
+    </h1>
+
+    <div class="subtitulo">
+      Registro de Laboratorio
+    </div>
+
+    <div id="lector"></div>
+
+    <div
+      id="resultado"
+      class="resultado">
+
+      <strong>
+        QR reconocido
+      </strong>
+
+      <div
+        id="codigo"
+        class="codigo">
+      </div>
+
+    </div>
+
+    <div
+      id="error"
+      class="error">
+    </div>
+
+    <button
+      onclick="reiniciarLector()">
+      ESCANEAR OTRO QR
+    </button>
+
+  </div>
+
+
+<script>
+
+let scanner = null;
+
+let procesando = false;
+
+
+function iniciarLector() {
+
+  procesando = false;
+
+
+  document
+    .getElementById('resultado')
+    .style.display =
+    'none';
+
+
+  document
+    .getElementById('error')
+    .style.display =
+    'none';
+
+
+  scanner =
+    new Html5QrcodeScanner(
+
+      'lector',
+
+      {
+        fps: 10,
+
+        qrbox: {
+          width: 250,
+          height: 250
+        },
+
+        rememberLastUsedCamera: true,
+
+        supportedScanTypes: [
+          Html5QrcodeScanType.SCAN_TYPE_CAMERA
+        ]
+      },
+
+      false
+
+    );
+
+
+  scanner.render(
+    qrLeido,
+    qrError
+  );
+}
+
+
+function qrLeido(
+  decodedText
+) {
+
+  if (
+    procesando
+  ) {
+    return;
+  }
+
+
+  procesando =
+    true;
+
+
+  const contenido =
+    String(
+      decodedText || ''
+    )
+      .trim();
+
+
+  if (
+    !contenido
+      .toUpperCase()
+      .startsWith(
+        'LABUSER|'
+      )
+  ) {
+
+    mostrarError(
+      'Este QR no pertenece al sistema del laboratorio.'
+    );
+
+
+    procesando =
+      false;
+
+
+    return;
+  }
+
+
+  document
+    .getElementById('codigo')
+    .textContent =
+    contenido;
+
+
+  document
+    .getElementById('resultado')
+    .style.display =
+    'block';
+
+
+  if (
+    scanner
+  ) {
+
+    scanner
+      .clear()
+      .catch(
+        function() {}
+      );
+  }
+}
+
+
+function qrError() {
+
+}
+
+
+function mostrarError(
+  texto
+) {
+
+  const error =
+    document
+      .getElementById(
+        'error'
+      );
+
+
+  error.textContent =
+    texto;
+
+
+  error.style.display =
+    'block';
+}
+
+
+function reiniciarLector() {
+
+  location.reload();
+}
+
+
+window.onload =
+function() {
+
+  iniciarLector();
+};
+
+</script>
+
+</body>
+
+</html>
