@@ -14,87 +14,362 @@
     Lector QR Laboratorio
   </title>
 
+
+  <!--
+    Versión fija de html5-qrcode.
+
+    No dejamos simplemente "latest"
+    para evitar que una actualización
+    futura cambie el comportamiento
+    del lector.
+  -->
+
   <script
-    src="https://unpkg.com/html5-qrcode">
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
   </script>
+
 
   <style>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
+    * {
+      box-sizing: border-box;
     }
+
+
+    body {
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        #f5f7fa;
+
+      margin:
+        0;
+
+      padding:
+        20px;
+
+      color:
+        #172033;
+    }
+
 
     .contenedor {
-      max-width: 520px;
-      margin: 30px auto;
-      background: white;
-      padding: 28px;
-      border-radius: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+
+      max-width:
+        620px;
+
+      margin:
+        30px auto;
+
+      background:
+        white;
+
+      padding:
+        28px;
+
+      border-radius:
+        16px;
+
+      box-shadow:
+        0 4px 18px
+        rgba(
+          0,
+          0,
+          0,
+          0.12
+        );
     }
+
 
     h1 {
-      text-align: center;
-      margin-top: 0;
+
+      text-align:
+        center;
+
+      margin:
+        0;
+
+      color:
+        #071D49;
+
+      font-size:
+        30px;
     }
+
 
     .subtitulo {
-      text-align: center;
-      color: #666;
-      margin-bottom: 25px;
+
+      text-align:
+        center;
+
+      color:
+        #666;
+
+      margin-top:
+        6px;
+
+      margin-bottom:
+        24px;
     }
+
+
+    .instruccion {
+
+      text-align:
+        center;
+
+      color:
+        #555;
+
+      font-size:
+        14px;
+
+      line-height:
+        1.5;
+
+      margin-bottom:
+        18px;
+    }
+
 
     #lector {
-      width: 100%;
+
+      width:
+        100%;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        12px;
+
+      background:
+        #111;
+
+      min-height:
+        320px;
     }
+
+
+    #lector video {
+
+      width:
+        100% !important;
+
+      height:
+        auto !important;
+
+      border-radius:
+        12px;
+    }
+
+
+    .estado {
+
+      margin-top:
+        16px;
+
+      padding:
+        12px 14px;
+
+      border-radius:
+        9px;
+
+      background:
+        #eef4ff;
+
+      color:
+        #0039A6;
+
+      text-align:
+        center;
+
+      font-size:
+        13px;
+
+      font-weight:
+        bold;
+    }
+
 
     .resultado {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 10px;
-      background: #e6f4ea;
-      color: #137333;
-      text-align: center;
-      display: none;
+
+      margin-top:
+        20px;
+
+      padding:
+        18px;
+
+      border-radius:
+        10px;
+
+      background:
+        #e6f4ea;
+
+      color:
+        #137333;
+
+      text-align:
+        center;
+
+      display:
+        none;
     }
+
 
     .error {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 10px;
-      background: #fce8e6;
-      color: #c5221f;
-      text-align: center;
-      display: none;
+
+      margin-top:
+        20px;
+
+      padding:
+        18px;
+
+      border-radius:
+        10px;
+
+      background:
+        #fce8e6;
+
+      color:
+        #c5221f;
+
+      text-align:
+        center;
+
+      display:
+        none;
     }
+
 
     .codigo {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      word-break: break-all;
+
+      margin-top:
+        10px;
+
+      font-size:
+        18px;
+
+      font-weight:
+        bold;
+
+      word-break:
+        break-all;
     }
+
 
     .espera {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #555;
+
+      margin-top:
+        10px;
+
+      font-size:
+        14px;
+
+      color:
+        #555;
     }
 
+
+    .botones {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        10px;
+
+      margin-top:
+        18px;
+    }
+
+
     button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      background: #1a73e8;
-      color: white;
+
+      width:
+        100%;
+
+      padding:
+        15px;
+
+      border:
+        none;
+
+      border-radius:
+        8px;
+
+      font-size:
+        15px;
+
+      font-weight:
+        bold;
+
+      cursor:
+        pointer;
+    }
+
+
+    .boton-reiniciar {
+
+      background:
+        #1a73e8;
+
+      color:
+        white;
+    }
+
+
+    .boton-regresar {
+
+      background:
+        #071D49;
+
+      color:
+        white;
+    }
+
+
+    @media (
+      max-width: 600px
+    ) {
+
+      body {
+
+        padding:
+          8px;
+      }
+
+
+      .contenedor {
+
+        margin:
+          8px auto;
+
+        padding:
+          18px;
+      }
+
+
+      #lector {
+
+        min-height:
+          260px;
+      }
+
+
+      .botones {
+
+        grid-template-columns:
+          1fr;
+      }
+
     }
 
   </style>
@@ -104,18 +379,43 @@
 
 <body>
 
+
 <div class="contenedor">
+
 
   <h1>
     Lector QR
   </h1>
+
 
   <div class="subtitulo">
     Registro de Laboratorio
   </div>
 
 
-  <div id="lector"></div>
+  <div class="instruccion">
+
+    Coloca el código QR frente a la cámara.
+
+    <br>
+
+    Mantén el código completo visible
+    durante uno o dos segundos.
+
+  </div>
+
+
+  <div id="lector">
+  </div>
+
+
+  <div
+    id="estado"
+    class="estado">
+
+    Iniciando cámara...
+
+  </div>
 
 
   <div
@@ -132,7 +432,10 @@
     </div>
 
     <div class="espera">
-      Regresando al sistema de registro...
+
+      Regresando al sistema
+      de registro...
+
     </div>
 
   </div>
@@ -144,10 +447,27 @@
   </div>
 
 
-  <button
-    onclick="reiniciarLector()">
-    ESCANEAR OTRO QR
-  </button>
+  <div class="botones">
+
+    <button
+      class="boton-reiniciar"
+      onclick="reiniciarLector()">
+
+      REINICIAR CÁMARA
+
+    </button>
+
+
+    <button
+      class="boton-regresar"
+      onclick="regresarSistema()">
+
+      VOLVER AL REGISTRO
+
+    </button>
+
+  </div>
+
 
 </div>
 
@@ -155,222 +475,62 @@
 <script>
 
 
-/* =========================================
-   URL DE TU APP DE GOOGLE
-========================================= */
+/* =====================================================
+   URL DE LA APLICACIÓN DE LABORATORIO
+===================================================== */
 
 const APP_LABORATORIO =
+
   'https://script.google.com/a/macros/tec.mx/s/AKfycbyZ0C0JQebvwdW4Q73-l2s1NunGBDDlHAEPTM-qRAj0TKeYpb0vWNXs0tWZ1lRdzP4s/exec';
 
 
-let scanner = null;
 
-let procesando = false;
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-
-/* =========================================
-   INICIAR LECTOR
-========================================= */
-
-function iniciarLector() {
-
-  procesando =
-    false;
+let lectorQR =
+  null;
 
 
-  document
-    .getElementById(
-      'resultado'
-    )
-    .style.display =
-    'none';
+let procesando =
+  false;
 
 
-  document
-    .getElementById(
-      'error'
-    )
-    .style.display =
-    'none';
+let lectorActivo =
+  false;
 
 
-  scanner =
-    new Html5QrcodeScanner(
 
-      'lector',
+/* =====================================================
+   MOSTRAR ESTADO
+===================================================== */
 
-      {
-
-        fps: 10,
-
-        qrbox: {
-
-          width: 250,
-
-          height: 250
-
-        },
-
-        rememberLastUsedCamera:
-          true,
-
-        supportedScanTypes: [
-
-          Html5QrcodeScanType
-            .SCAN_TYPE_CAMERA
-
-        ]
-
-      },
-
-      false
-
-    );
-
-
-  scanner.render(
-
-    qrLeido,
-
-    qrError
-
-  );
-}
-
-
-/* =========================================
-   QR LEÍDO
-========================================= */
-
-function qrLeido(
-  decodedText
+function mostrarEstado(
+  texto
 ) {
 
-  if (
-    procesando
-  ) {
-
-    return;
-  }
-
-
-  const contenido =
-    String(
-      decodedText || ''
-    )
-      .trim();
+  const estado =
+    document
+      .getElementById(
+        'estado'
+      );
 
 
-  /*
-    SOLO ACEPTAMOS LOS QR
-    GENERADOS POR EL SISTEMA
-  */
-
-  if (
-    !contenido
-      .toUpperCase()
-      .startsWith(
-        'LABUSER|'
-      )
-  ) {
-
-    mostrarError(
-      'Este QR no pertenece al sistema del laboratorio.'
-    );
+  estado.textContent =
+    texto;
 
 
-    return;
-  }
-
-
-  procesando =
-    true;
-
-
-  document
-    .getElementById(
-      'codigo'
-    )
-    .textContent =
-    contenido;
-
-
-  document
-    .getElementById(
-      'resultado'
-    )
-    .style.display =
+  estado.style.display =
     'block';
 
-
-  /*
-    DETENEMOS LA CÁMARA
-  */
-
-  if (
-    scanner
-  ) {
-
-    scanner
-      .clear()
-      .catch(
-        function() {}
-      );
-  }
-
-
-  /*
-    AGREGAMOS EL QR A LA URL
-    DE LA APP DE GOOGLE
-  */
-
-  const destino =
-
-    APP_LABORATORIO +
-
-    '?qr=' +
-
-    encodeURIComponent(
-      contenido
-    );
-
-
-  /*
-    DAMOS UN PEQUEÑO TIEMPO
-    PARA QUE EL USUARIO VEA
-    QUE EL QR FUE RECONOCIDO
-  */
-
-  setTimeout(
-    function() {
-
-      window.location.href =
-        destino;
-
-    },
-    700
-  );
 }
 
 
-/* =========================================
-   ERROR DE LECTURA
-========================================= */
 
-function qrError() {
-
-  /*
-    Es normal que existan intentos
-    de lectura fallidos mientras
-    la cámara busca un QR.
-  */
-
-}
-
-
-/* =========================================
+/* =====================================================
    MOSTRAR ERROR
-========================================= */
+===================================================== */
 
 function mostrarError(
   texto
@@ -389,31 +549,623 @@ function mostrarError(
 
   error.style.display =
     'block';
+
 }
 
 
-/* =========================================
-   REINICIAR
-========================================= */
 
-function reiniciarLector() {
+/* =====================================================
+   OCULTAR ERROR
+===================================================== */
 
-  location.reload();
+function ocultarError() {
+
+  document
+    .getElementById(
+      'error'
+    )
+    .style.display =
+    'none';
+
 }
 
 
-/* =========================================
-   INICIO
-========================================= */
 
-window.onload =
-function() {
+/* =====================================================
+   OBTENER CÁMARA
+===================================================== */
+
+async function obtenerCamara() {
+
+  /*
+    Primero buscamos las cámaras
+    disponibles.
+
+    Si encontramos una cámara cuyo
+    nombre parezca trasera / ambiente,
+    la usamos.
+
+    Si no, usamos la primera disponible.
+  */
+
+  const camaras =
+    await Html5Qrcode
+      .getCameras();
+
+
+  if (
+    !camaras ||
+    camaras.length === 0
+  ) {
+
+    throw new Error(
+      'No se encontró ninguna cámara disponible.'
+    );
+
+  }
+
+
+  let seleccionada =
+    camaras[0];
+
+
+  for (
+    let i = 0;
+    i < camaras.length;
+    i++
+  ) {
+
+    const nombre =
+      String(
+        camaras[i].label || ''
+      )
+      .toLowerCase();
+
+
+    if (
+      nombre.includes(
+        'back'
+      ) ||
+
+      nombre.includes(
+        'rear'
+      ) ||
+
+      nombre.includes(
+        'environment'
+      ) ||
+
+      nombre.includes(
+        'trasera'
+      )
+    ) {
+
+      seleccionada =
+        camaras[i];
+
+      break;
+
+    }
+
+  }
+
+
+  return seleccionada.id;
+
+}
+
+
+
+/* =====================================================
+   INICIAR LECTOR
+===================================================== */
+
+async function iniciarLector() {
+
+  procesando =
+    false;
+
+
+  lectorActivo =
+    false;
+
+
+  ocultarError();
+
+
+  document
+    .getElementById(
+      'resultado'
+    )
+    .style.display =
+    'none';
+
+
+  mostrarEstado(
+    'Solicitando acceso a la cámara...'
+  );
+
+
+  try {
+
+
+    /*
+      Creamos directamente Html5Qrcode.
+
+      Esta versión analiza el video completo
+      y no depende de la interfaz automática
+      de Html5QrcodeScanner.
+    */
+
+    lectorQR =
+      new Html5Qrcode(
+
+        'lector',
+
+        {
+
+          formatsToSupport: [
+
+            Html5QrcodeSupportedFormats
+              .QR_CODE
+
+          ],
+
+          verbose:
+            false
+
+        }
+
+      );
+
+
+    const camara =
+      await obtenerCamara();
+
+
+    /*
+      IMPORTANTE:
+
+      Ya no usamos una qrbox fija
+      de 250 × 250.
+
+      El lector analiza una zona
+      considerablemente mayor y
+      funciona mejor con QR vistos
+      desde otra pantalla.
+    */
+
+    const configuracion = {
+
+      fps:
+        15,
+
+      qrbox:
+        function(
+          anchoVista,
+          altoVista
+        ) {
+
+          const ancho =
+            Math.floor(
+              anchoVista *
+              0.82
+            );
+
+
+          const alto =
+            Math.floor(
+              altoVista *
+              0.82
+            );
+
+
+          const lado =
+            Math.min(
+              ancho,
+              alto
+            );
+
+
+          return {
+
+            width:
+              lado,
+
+            height:
+              lado
+
+          };
+
+        },
+
+      aspectRatio:
+        1.3333333,
+
+      disableFlip:
+        false,
+
+      experimentalFeatures: {
+
+        useBarCodeDetectorIfSupported:
+          true
+
+      }
+
+    };
+
+
+    await lectorQR.start(
+
+      camara,
+
+      configuracion,
+
+      qrLeido,
+
+      qrError
+
+    );
+
+
+    lectorActivo =
+      true;
+
+
+    mostrarEstado(
+      'Cámara activa · buscando código QR...'
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+
+    console.error(
+      error
+    );
+
+
+    mostrarEstado(
+      'No se pudo iniciar el lector.'
+    );
+
+
+    mostrarError(
+
+      'No fue posible iniciar correctamente la cámara. ' +
+
+      (
+        error &&
+        error.message
+
+          ? error.message
+
+          : ''
+      )
+
+    );
+
+  }
+
+}
+
+
+
+/* =====================================================
+   QR LEÍDO
+===================================================== */
+
+async function qrLeido(
+  decodedText
+) {
+
+  if (
+    procesando
+  ) {
+
+    return;
+
+  }
+
+
+  const contenido =
+    String(
+      decodedText || ''
+    )
+    .trim();
+
+
+  if (
+    !contenido
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    Llegar aquí significa que la cámara
+    SÍ logró decodificar un QR.
+  */
+
+  console.log(
+    'QR detectado:',
+    contenido
+  );
+
+
+  /*
+    Solamente aceptamos los QR
+    generados por nuestro sistema.
+  */
+
+  if (
+    !contenido
+      .toUpperCase()
+      .startsWith(
+        'LABUSER|'
+      )
+  ) {
+
+
+    mostrarError(
+
+      'El QR fue leído correctamente, ' +
+
+      'pero no pertenece al sistema del laboratorio.'
+
+    );
+
+
+    mostrarEstado(
+      'QR detectado · esperando un QR de laboratorio...'
+    );
+
+
+    return;
+
+  }
+
+
+  procesando =
+    true;
+
+
+  ocultarError();
+
+
+  document
+    .getElementById(
+      'codigo'
+    )
+    .textContent =
+    contenido;
+
+
+  document
+    .getElementById(
+      'resultado'
+    )
+    .style.display =
+    'block';
+
+
+  mostrarEstado(
+    'QR reconocido correctamente.'
+  );
+
+
+  /*
+    Detenemos la cámara antes
+    de regresar a Apps Script.
+  */
+
+  try {
+
+    if (
+      lectorQR &&
+      lectorActivo
+    ) {
+
+      await lectorQR.stop();
+
+      lectorActivo =
+        false;
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.log(
+      error
+    );
+
+  }
+
+
+  const destino =
+
+    APP_LABORATORIO +
+
+    '?qr=' +
+
+    encodeURIComponent(
+      contenido
+    );
+
+
+  /*
+    Dejamos un breve momento
+    para mostrar la confirmación.
+  */
+
+  setTimeout(
+
+    function() {
+
+      window.location.href =
+        destino;
+
+    },
+
+    600
+
+  );
+
+}
+
+
+
+/* =====================================================
+   ERROR NORMAL DE ESCANEO
+===================================================== */
+
+function qrError() {
+
+  /*
+    Esta función puede ejecutarse
+    muchas veces por segundo mientras
+    la cámara busca un código.
+
+    No mostramos esos intentos porque
+    son completamente normales.
+  */
+
+}
+
+
+
+/* =====================================================
+   REINICIAR LECTOR
+===================================================== */
+
+async function reiniciarLector() {
+
+  procesando =
+    false;
+
+
+  ocultarError();
+
+
+  try {
+
+    if (
+      lectorQR &&
+      lectorActivo
+    ) {
+
+      await lectorQR.stop();
+
+    }
+
+
+    if (
+      lectorQR
+    ) {
+
+      await lectorQR.clear();
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.log(
+      error
+    );
+
+  }
+
+
+  lectorQR =
+    null;
+
+
+  lectorActivo =
+    false;
+
+
+  document
+    .getElementById(
+      'lector'
+    )
+    .innerHTML =
+    '';
+
 
   iniciarLector();
 
-};
+}
+
+
+
+/* =====================================================
+   VOLVER AL SISTEMA
+===================================================== */
+
+async function regresarSistema() {
+
+  try {
+
+    if (
+      lectorQR &&
+      lectorActivo
+    ) {
+
+      await lectorQR.stop();
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.log(
+      error
+    );
+
+  }
+
+
+  window.location.href =
+    APP_LABORATORIO;
+
+}
+
+
+
+/* =====================================================
+   INICIO
+===================================================== */
+
+window.addEventListener(
+
+  'load',
+
+  function() {
+
+    iniciarLector();
+
+  }
+
+);
 
 </script>
+
 
 </body>
 
